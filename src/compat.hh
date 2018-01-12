@@ -32,6 +32,9 @@
 #include <sys/thr.h>
 #endif
 
+#ifdef __NetBSD__
+#include <pthread.h>
+#endif
 
 #if defined(__linux__)
 
@@ -66,6 +69,23 @@ thread_is_alive(thread_id_t tid)
 {
     return thr_kill(tid, 0) == 0;
 }
+
+#elif defined(__NetBSD__)
+
+typedef pthread_t thread_id_t;
+
+static inline thread_id_t
+get_current_thread_id()
+{
+    return pthread_self();
+}
+
+static inline size_t
+thread_is_alive(thread_id_t tid)
+{
+    return pthread_kill(tid, 0) == 0;
+}
+
 
 #else
 #error Unknown OS

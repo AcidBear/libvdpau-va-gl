@@ -22,7 +22,10 @@
  * SOFTWARE.
  */
 
+#ifndef __NetBSD__
 #define _XOPEN_SOURCE   500
+#endif
+
 #include "api.hh"
 #include "compat.hh"
 #include "globals.hh"
